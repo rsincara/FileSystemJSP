@@ -6,15 +6,15 @@ import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class MyFile {
-    public String fileName;
-    public String absolutePath;
-    public String creationDate;
-    public long size; //в байтах
+    private final String fileName;
+    private final String absolutePath;
+    private final String creationDate;
+    private final long size; //в байтах
 
     public MyFile(File file) throws IOException {
         this.fileName = file.getName();
         this.absolutePath = file.getAbsolutePath();
-        this.creationDate = Files.readAttributes(file.toPath(), BasicFileAttributes.class).creationTime().toString().substring(0,10);
+        this.creationDate = Files.readAttributes(file.toPath(), BasicFileAttributes.class).creationTime().toString().substring(0, 10);
         this.size = file.length();
     }
 
@@ -22,15 +22,15 @@ public class MyFile {
         return fileName;
     }
 
-    public String getAbsolutePath(){
+    public String getAbsolutePath() {
         return absolutePath;
     }
 
-    public String getCreationDate(){
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public String getSize(){
+    public String getSize() {
         return String.valueOf(size);
     }
 }
