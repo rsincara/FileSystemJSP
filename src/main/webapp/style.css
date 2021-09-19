@@ -1,0 +1,39 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color:#dedede;
+}
+
+.time {
+    font-size: 30px;
+}
+
+.path{
+    font-weight: bold;
+    font-size: 60px;
+}
+
+table{
+    border-spacing: 50px 0;
+}
+
+tr{
+    text-align: left;
+}
+
+*:visited{
+    text-decoration: none;
+}
+
+.object-wrapper{
+    position: relative;
+}
+
+.object{
+    display: flex;
+    align-items: center;
+}
