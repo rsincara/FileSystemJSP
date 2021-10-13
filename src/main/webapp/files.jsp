@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<a href="/my-app/logout" class="logout">Выйти</a>
 <p class="time">${generatedTime}</p>
 <p class="path">${path}</p>
 <hr/>

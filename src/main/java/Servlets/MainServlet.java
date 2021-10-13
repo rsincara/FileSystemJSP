@@ -1,6 +1,8 @@
 package Servlets;
 
+import Accounts.UserProfile;
 import Models.MyFile;
+import Services.AccountService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 @WebServlet("/files")
@@ -31,7 +34,21 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //метот дуГет из супера только вызывает ошибку
-        File folder = new File(req.getParameter("path"));
+        String sessionId = req.getSession().getId();
+        UserProfile profile = AccountService.getUserBySessionId(sessionId);
+        if(profile == null){
+            getServletContext().getRequestDispatcher("/login.jsp").forward(req,resp);
+            return;
+        }
+
+        String path = req.getParameter("path");
+        if(!Arrays.asList(path.split("\\\\")).contains("usersFiles") || !Arrays.asList(path.split("\\\\")).contains(profile.getLogin()) )  {
+            req.setAttribute("error", "У вас нет прав для просмотра этой директории");
+            getServletContext().getRequestDispatcher("/errorPage.jsp").forward(req,resp);
+            return;
+        }
+
+        File folder = new File(path);
         ArrayList<MyFile> directories = new ArrayList<>();
         ArrayList<MyFile> binaryFiles = new ArrayList<>();
 
@@ -43,7 +60,6 @@ public class MainServlet extends HttpServlet {
             }
         }
 
-        String path = req.getParameter("path");
         String[] backPathArr = path.split("\\\\");
         String backPath = "";
         if(path.equals("C:\\")){
@@ -61,6 +77,11 @@ public class MainServlet extends HttpServlet {
         req.setAttribute("directories", directories);
         req.setAttribute("binaryFiles", binaryFiles);
         getServletContext().getRequestDispatcher("/files.jsp").forward(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doGet(req, resp);
     }
 
     @Override

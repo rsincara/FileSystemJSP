@@ -29,7 +29,6 @@ public class DownloadServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //метот дуГет из супера только вызывает ошибку
         File file = new File(req.getParameter("path"));
 
         resp.setContentType("application/octet-stream");
